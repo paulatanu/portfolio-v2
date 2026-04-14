@@ -1,116 +1,440 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Atanu Paul Portfolio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atanu Paul | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS VARIABLES (LIGHT MODE DEFAULT) --- */
+        :root {
+            --bg-color: #f8fafc;
+            --text-color: #0f172a;
+            --text-muted: #64748b;
+            --accent-color: #6366f1; /* Indigo from screenshots */
+            --accent-light: #e0e7ff;
+            --card-bg: #ffffff;
+            --card-hover: #f1f5f9;
+            --card-border: #e2e8f0;
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --badge-green-bg: #dcfce7;
+            --badge-green-text: #166534;
+            --badge-blue-bg: #dbeafe;
+            --badge-blue-text: #1e40af;
+        }
+
+        /* --- DARK MODE OVERRIDES --- */
+        body.dark-mode {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-color: #818cf8;
+            --accent-light: rgba(129, 140, 248, 0.15);
+            --card-bg: #1e293b;
+            --card-hover: #334155;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --nav-bg: rgba(15, 23, 42, 0.95);
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            --badge-green-bg: rgba(34, 197, 94, 0.2);
+            --badge-green-text: #4ade80;
+            --badge-blue-bg: rgba(59, 130, 246, 0.2);
+            --badge-blue-text: #60a5fa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* --- NAVIGATION & TOGGLE --- */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 1rem 5%;
+            background: var(--nav-bg); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; border-bottom: 1px solid var(--card-border);
+            transition: all 0.3s ease;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent-color); text-decoration: none; }
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-links a { color: var(--text-color); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent-color); }
+        
+        #theme-toggle {
+            background: var(--accent-light); color: var(--accent-color);
+            border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer;
+            font-weight: 600; display: flex; align-items: center; gap: 5px;
+            transition: all 0.3s ease; font-family: 'Poppins', sans-serif;
+        }
+        #theme-toggle:hover { transform: scale(1.05); }
+
+        /* --- HERO SECTION --- */
+        #home { min-height: 100vh; display: flex; align-items: center; justify-content: space-between; padding: 0 10%; margin-top: 40px; }
+        .hero-text { max-width: 600px; }
+        .hero-text h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 0.5rem; }
+        .hero-text h1 span { color: var(--accent-color); }
+        .hero-text h2 { font-size: 1.5rem; font-weight: 500; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .hero-text p { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 2rem; }
+        
+        .btn {
+            display: inline-block; padding: 10px 25px; background: transparent;
+            color: var(--accent-color); border: 2px solid var(--accent-color);
+            border-radius: 8px; text-decoration: none; font-weight: 600;
+            transition: all 0.3s ease; text-align: center;
+        }
+        .btn.primary { background: var(--accent-color); color: #fff; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2); }
+        .btn.primary:hover { background: transparent; color: var(--accent-color); }
+
+        .hero-image img {
+            width: 380px; height: 380px; object-fit: cover;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            border: 4px solid var(--accent-color);
+            animation: morph 8s ease-in-out infinite, floatImage 6s ease-in-out infinite;
+        }
+
+        @keyframes morph {
+            0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            50% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+            100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+        }
+        @keyframes floatImage {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* --- GENERAL SECTIONS --- */
+        section { padding: 5rem 10%; }
+        .section-title { font-size: 2.2rem; margin-bottom: 0.5rem; text-align: center; font-weight: 700; }
+        .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 3rem; font-size: 1rem; }
+        .title-underline { width: 50px; height: 3px; background: var(--accent-color); margin: 0 auto 3rem auto; border-radius: 5px; }
+
+        /* --- NEW PROJECTS LAYOUT --- */
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .project-card-new {
+            background: var(--card-bg); border-radius: 12px; border: 1px solid var(--card-border);
+            overflow: hidden; transition: all 0.3s ease; box-shadow: var(--shadow);
+            display: flex; flex-direction: column;
+        }
+        .project-card-new:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .project-img-placeholder { height: 180px; background: var(--card-border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 2rem; }
+        /* Light colored banner backgrounds for the cards */
+        .card-banner-1 { background: linear-gradient(135deg, #fee2e2, #ffedd5); }
+        .card-banner-2 { background: linear-gradient(135deg, #e0e7ff, #ede9fe); }
+        .card-banner-3 { background: linear-gradient(135deg, #dcfce7, #ccfbf1); }
+        .dark-mode .card-banner-1, .dark-mode .card-banner-2, .dark-mode .card-banner-3 { background: #334155; }
+        
+        .project-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .project-icon { width: 40px; height: 40px; background: var(--accent-color); color: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 1rem; }
+        .project-content h3 { font-size: 1.3rem; margin-bottom: 0.3rem; color: var(--text-color); }
+        .project-sub { font-size: 0.85rem; color: var(--accent-color); font-weight: 600; margin-bottom: 1rem; }
+        .project-content p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; flex-grow: 1; }
+        
+        .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
+        .tech-tag { background: var(--accent-light); color: var(--text-color); font-size: 0.8rem; padding: 4px 10px; border-radius: 12px; font-weight: 500; }
+        
+        .btn-outline-full { width: 100%; padding: 10px; border: 1px solid var(--card-border); background: transparent; color: var(--text-color); border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; text-decoration: none; text-align: center; }
+        .btn-outline-full:hover { background: var(--card-border); }
+
+        /* --- NEW EDUCATION & ACHIEVEMENTS LAYOUT --- */
+        .edu-container { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; }
+        @media (max-width: 900px) { .edu-container { grid-template-columns: 1fr; } }
+        
+        .col-header { display: flex; align-items: center; gap: 10px; font-size: 1.3rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-color); }
+        .col-header span { color: var(--accent-color); font-size: 1.5rem; }
+        
+        .edu-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); transition: transform 0.3s ease; }
+        .edu-card:hover { transform: translateX(5px); border-color: var(--accent-color); }
+        
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.8rem; }
+        .badge.green { background: var(--badge-green-bg); color: var(--badge-green-text); }
+        .badge.blue { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
+        
+        .edu-card h4 { font-size: 1.15rem; color: var(--text-color); margin-bottom: 0.3rem; }
+        .edu-inst { color: var(--accent-color); font-size: 0.95rem; font-weight: 500; margin-bottom: 0.5rem; }
+        .edu-date { color: var(--text-muted); font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
+        .edu-desc { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.8rem; }
+
+        .achievement-card { display: flex; gap: 1rem; align-items: flex-start; }
+        .achieve-icon { font-size: 1.8rem; }
+        .achieve-content h4 { font-size: 1.05rem; margin-bottom: 0.3rem; }
+        .achieve-content p { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* --- NEW CERTIFICATIONS LAYOUT --- */
+        .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }
+        .cert-card-new { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow); transition: all 0.3s ease; }
+        .cert-card-new:hover { border-color: var(--accent-color); transform: translateY(-5px); }
+        
+        .cert-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .cert-type { display: flex; align-items: center; gap: 5px; font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+        
+        .cert-card-new h4 { font-size: 1.15rem; margin-bottom: 0.3rem; color: var(--text-color); }
+        .cert-issuer { color: var(--accent-color); font-size: 0.95rem; font-weight: 500; margin-bottom: 0.8rem; }
+        .cert-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; }
+        .cert-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--card-border); padding-top: 1rem; font-size: 0.85rem; color: var(--text-muted); }
+
+        /* --- EXPERIENCE TIMELINE --- */
+        .timeline { border-left: 3px solid var(--card-border); margin-left: 20px; padding-left: 30px; position: relative; }
+        .timeline-item { margin-bottom: 3rem; position: relative; }
+        .timeline-item::before { content: ''; position: absolute; left: -39px; top: 0; width: 15px; height: 15px; background: var(--accent-color); border-radius: 50%; border: 4px solid var(--bg-color); }
+        .timeline-item h3 { font-size: 1.2rem; color: var(--text-color); }
+        .timeline-date { color: var(--accent-color); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; display: block; }
+        .timeline-item p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.5rem; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            #home { flex-direction: column-reverse; text-align: center; gap: 2rem; padding-top: 6rem; }
+            .hero-text h1 { font-size: 2.5rem; }
+            .nav-links a.hide-mobile { display: none; }
+            .hero-image img { width: 280px; height: 280px; }
+        }
+    </style>
 </head>
 <body>
 
-<!-- HERO -->
-<section class="hero">
-  <h1>Hi, I'm <span>Atanu Paul</span></h1>
-  <h2 id="role"></h2>
+    <nav>
+        <a href="#" class="logo">Atanu.</a>
+        <div class="nav-links">
+            <a href="#projects" class="hide-mobile">Projects</a>
+            <a href="#education" class="hide-mobile">Education</a>
+            <a href="#certifications" class="hide-mobile">Certifications</a>
+            <a href="#experience" class="hide-mobile">Experience</a>
+            <button id="theme-toggle">🌙 Dark</button>
+        </div>
+    </nav>
 
-  <div class="links">
-    <a href="https://github.com/paulatanu/" target="_blank">GitHub</a>
-    <a href="mailto:paulatanu14@gmail.com">Email</a>
-  </div>
-</section>
+    <section id="home">
+        <div class="hero-text">
+            <h1>Hi, I'm <span>Atanu Paul</span></h1>
+            <h2>SME - Simulation Test Engineering & Data Analyst</h2>
+            <p>Dynamic and detail-oriented Data Analyst specializing in SQL database management, data visualization, and workflow automation. Skilled in transforming complex data into actionable business insights through Power BI, Looker Studio, and custom Appscript.</p>
+            
+            <div style="margin-bottom: 1.5rem; font-size: 0.95rem; color: var(--text-muted);">
+                📞 +91 8967006057 | ✉️ paulatanu14@gmail.com
+            </div>
 
-<!-- ABOUT -->
-<section>
-  <h2>About Me</h2>
-  <p>
-    Dynamic Data Analyst with expertise in GIS, automation, and simulation testing.
-    Skilled in SQL, Power BI, Looker Studio, and workflow automation using Apps Script.
-    Experienced in handling large spatial datasets and delivering business insights.
-  </p>
-</section>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <a href="#projects" class="btn primary">View Projects</a>
+                <a href="Atanu_Paul_CV.pdf" download="Atanu_Paul_CV.pdf" class="btn">Download CV</a> 
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="1000177914.jpg" alt="Atanu Paul">
+        </div>
+    </section>
 
-<!-- SKILLS -->
-<section>
-  <h2>Technical Skills</h2>
-  <ul>
-    <li>Python, R, SQL, C++, JavaScript</li>
-    <li>Power BI, Looker Studio, Excel VBA</li>
-    <li>ArcGIS, QGIS, Google Earth Engine</li>
-    <li>Machine Learning, ETL, Data Mining</li>
-    <li>Git, CI/CD, AppScript Automation</li>
-  </ul>
-</section>
+    <section id="projects">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="title-underline"></div>
+        <p class="section-subtitle">Explore my data science and workflow automation projects that solve real-world problems</p>
+        
+        <div class="projects-grid">
+            <div class="project-card-new">
+                <div class="project-img-placeholder card-banner-1">💊</div>
+                <div class="project-content">
+                    <div class="project-icon" style="background: #ef4444;">🏥</div>
+                    <h3>MeditechOS</h3>
+                    <div class="project-sub">Pharmacy Management System</div>
+                    <p>A comprehensive billing and inventory management software solution designed for pharmacy operations. Features include progressive web app (PWA) capabilities and seamless transaction tracking.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">PWA</span>
+                        <span class="tech-tag">Billing</span>
+                    </div>
+                    <a href="https://paulatanu.github.io/MeditechOS/" target="_blank" class="btn-outline-full">View Details</a>
+                </div>
+            </div>
 
-<!-- PROJECT -->
-<section>
-  <h2>Projects</h2>
+            <div class="project-card-new">
+                <div class="project-img-placeholder card-banner-2">📊</div>
+                <div class="project-content">
+                    <div class="project-icon" style="background: #f97316;">📋</div>
+                    <h3>Smart Kanban Dashboard</h3>
+                    <div class="project-sub">Project Management & Automation</div>
+                    <p>Automated task tracker with Comment assigning CRUD capabilities. Built using Google Apps Script to optimize workflows and project tracking for team management.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Google Apps Script</span>
+                        <span class="tech-tag">Automation</span>
+                        <span class="tech-tag">Workflow</span>
+                    </div>
+                    <a href="https://script.google.com/a/macros/imerit.net/s/AKfycby-aUYsNcZxwW837eBpG6NVKBPm0NNO3bnU1e0FPRZ2j7ay3naLxqREGkaGMsKHmawP/exec" target="_blank" class="btn-outline-full">View Details</a>
+                </div>
+            </div>
 
-  <div class="card">
-    <h3>Yield Prediction System</h3>
-    <p>Machine learning-based crop yield prediction using Streamlit dashboard.</p>
-    <a href="https://yield-predictor-atanu-ywddbuuwwd2eqfdki5wyda.streamlit.app/" target="_blank">
-      View Project
-    </a>
-  </div>
+            <div class="project-card-new">
+                <div class="project-img-placeholder card-banner-3">📈</div>
+                <div class="project-content">
+                    <div class="project-icon" style="background: #3b82f6;">🌾</div>
+                    <h3>Yield Prediction Engine</h3>
+                    <div class="project-sub">Data Science & ML Dashboard</div>
+                    <p>Data science application built with Streamlit to forecast yields, leveraging Python and machine learning techniques to visualize predictive models and datasets.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Streamlit</span>
+                        <span class="tech-tag">Machine Learning</span>
+                    </div>
+                    <a href="https://yield-predictor-atanu-ywddbuuwwd2eqfdki5wyda.streamlit.app/" target="_blank" class="btn-outline-full">View Details</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-</section>
+    <section id="education" style="background-color: var(--card-hover);">
+        <h2 class="section-title">Education & Achievements</h2>
+        <div class="title-underline"></div>
+        
+        <div class="edu-container">
+            <div class="edu-left">
+                <div class="col-header"><span>🎓</span> Academic Background</div>
+                
+                <div class="edu-card">
+                    <span class="badge green">Score: 9.06/10</span>
+                    <h4>M.Sc. In Remote Sensing and GIS</h4>
+                    <p class="edu-inst">Vidyasagar University, West Bengal</p>
+                    <p class="edu-date">🗓️ 2020 - 2022</p>
+                </div>
 
-<!-- EXPERIENCE -->
-<section>
-  <h2>Experience</h2>
+                <div class="edu-card">
+                    <span class="badge blue">Score: 93.4%</span>
+                    <h4>Diploma In Data Science</h4>
+                    <p class="edu-inst">Vidyasagar University (CCAE)</p>
+                    <p class="edu-date">🗓️ 2022 - 2023</p>
+                    <p class="edu-desc">Covering Machine Learning, Classification, SQL, Python, DBMS, Data Warehousing, and Data Mining.</p>
+                </div>
 
-  <div class="card">
-    <h3>Sr. ITES Executive - iMerit Technologies</h3>
-    <p>
-      Working on autonomous vehicle simulation, LiDAR analysis, and cartography.
-      Built dashboards, automated workflows, and handled QA processes.
-    </p>
-  </div>
+                <div class="edu-card">
+                    <span class="badge green">Score: 7.7/10</span>
+                    <h4>B.Sc. In Mathematics</h4>
+                    <p class="edu-inst">Vidyasagar University, West Bengal</p>
+                    <p class="edu-date">🗓️ 2017 - 2020</p>
+                </div>
+            </div>
 
-  <div class="card">
-    <h3>GIS Engineer - AABSyS IT</h3>
-    <p>
-      Managed large-scale US utility datasets, QA validation, and visualization.
-    </p>
-  </div>
+            <div class="edu-right">
+                <div class="col-header"><span>🎖️</span> Teaching & Mentorship</div>
+                
+                <div class="edu-card achievement-card">
+                    <div class="achieve-icon">👨‍🏫</div>
+                    <div class="achieve-content">
+                        <h4>Data Science Trainer (Volunteer)</h4>
+                        <p class="edu-inst" style="font-size: 0.85rem;">Vidyasagar University & LinkedIn</p>
+                        <p>Conducting training sessions covering data analysis, visualization, and practical projects on Python, Pandas, and NumPy. Mentoring via LinkedIn community posts.</p>
+                    </div>
+                </div>
 
-</section>
+                <div class="edu-card achievement-card">
+                    <div class="achieve-icon">💼</div>
+                    <div class="achieve-content">
+                        <h4>Data Science Trainer</h4>
+                        <p class="edu-inst" style="font-size: 0.85rem;">SentientWare Tech Solutions Pvt. Ltd.</p>
+                        <p>Covering Basics to Intermediates of Data Science Internship Programme (May to July).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- CERTIFICATION -->
-<section>
-  <h2>Certifications</h2>
-  <p>
-    Diploma in Data Science - Vidyasagar University <br>
-    Covered ML, SQL, Python, Data Mining, Warehousing with practical labs.
-  </p>
-</section>
+    <section id="certifications">
+        <h2 class="section-title">Certifications</h2>
+        <div class="title-underline"></div>
+        
+        <div class="cert-grid">
+            <div class="cert-card-new">
+                <div class="cert-header">
+                    <span class="cert-type"><span>🎓</span> Academic</span>
+                    <span class="badge blue" style="margin:0;">Elite</span>
+                </div>
+                <h4>Diploma in Data Science</h4>
+                <p class="cert-issuer">Vidyasagar University</p>
+                <p class="cert-desc">1-year comprehensive course covering ML, Supervised/Unsupervised Classification, SQL, R, Python, and DBMS with practical lab experience.</p>
+                <div class="cert-footer"><span>🗓️ 2022-2023</span></div>
+            </div>
 
-<!-- EDUCATION -->
-<section>
-  <h2>Education</h2>
-  <ul>
-    <li>M.Sc Remote Sensing & GIS – Vidyasagar University (9.06)</li>
-    <li>Diploma in Data Science – VU (93.4%)</li>
-    <li>B.Sc Mathematics – Vidyasagar University</li>
-  </ul>
-</section>
+            <div class="cert-card-new">
+                <div class="cert-header">
+                    <span class="cert-type"><span>💻</span> Development</span>
+                </div>
+                <h4>Advance MS Excel VBA</h4>
+                <p class="cert-issuer">Udemy</p>
+                <p class="cert-desc">Advanced data manipulation and macro programming within the Excel environment.</p>
+            </div>
 
-<!-- TRAINING -->
-<section>
-  <h2>Teaching Experience</h2>
-  <p>
-    Data Science Trainer at SentientWare & Volunteer Trainer at Vidyasagar University.
-    Conducted sessions on Python, Data Analysis, and ML fundamentals.
-  </p>
-</section>
+            <div class="cert-card-new">
+                <div class="cert-header">
+                    <span class="cert-type"><span>⚙️</span> Programming</span>
+                </div>
+                <h4>Python for Data Science</h4>
+                <p class="cert-issuer">Udemy</p>
+                <p class="cert-desc">Comprehensive training in Python programming specifically tailored for data analysis and visualization workflows.</p>
+            </div>
 
-<!-- CONTACT -->
-<section>
-  <h2>Contact</h2>
-  <p>📞 +91 8967006057</p>
-  <p>📧 paulatanu14@gmail.com</p>
-</section>
+            <div class="cert-card-new">
+                <div class="cert-header">
+                    <span class="cert-type"><span>🔧</span> Version Control</span>
+                </div>
+                <h4>Git and GitHub Bootcamp</h4>
+                <p class="cert-issuer">Udemy</p>
+                <p class="cert-desc">Mastering version control, branch management, and CI/CD pipelines using Git and GitHub.</p>
+            </div>
+        </div>
+    </section>
 
-<script src="script.js"></script>
+    <section id="experience" style="background-color: var(--card-hover);">
+        <h2 class="section-title">Work Experience</h2>
+        <div class="title-underline"></div>
+        
+        <div class="timeline" style="max-width: 900px; margin: 0 auto;">
+            <div class="timeline-item">
+                <h3>Sr. ITES Executive (SME - Simulation Test Engineering)</h3>
+                <span class="timeline-date">iMerit Technologies | May 2023 - Present</span>
+                <p>Managed lane and traffic mapping using Web-GIS, integrating LIDAR data analysis and AV feedback for precise cartographic updates. Built and validated simulation scenes, tracked test results in Jira, and maintained regulatory compliance.</p>
+                <p>Led team QA activities, produced RCA reports, and designed decision trees. Oversaw monthly productivity reporting and dashboards, automating workflows using Appscript and Power BI.</p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>GIS Engineer</h3>
+                <span class="timeline-date">AABSYS IT Pvt. Ltd | Oct 2022 - May 2023</span>
+                <p>Mapped and managed large spatial datasets for US infrastructure projects (Utility, Electricity, Gas). Ensured high accuracy through rigorous QA while coordinating team data processes and SLA productivity.</p>
+                <p>Specialized in client reporting, presentations, and translating complex findings into actionable insights through visualization in Looker Studio.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 2rem; background: var(--card-bg); color: var(--text-muted); border-top: 1px solid var(--card-border);">
+        <p>&copy; 2026 Atanu Paul. Designed with HTML, CSS & JS.</p>
+    </footer>
+
+    <script>
+        // --- THEME TOGGLE LOGIC ---
+        const themeBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        
+        // Check local storage for theme preference
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeBtn.innerHTML = '☀️ Light';
+        }
+
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeBtn.innerHTML = '☀️ Light';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeBtn.innerHTML = '🌙 Dark';
+            }
+        });
+    </script>
 </body>
 </html>
